@@ -17,8 +17,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/add_without_image' , upload.any() , (req , res) => {
   let data = JSON.parse(req.body.SendData)
-  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index)
-  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index}) returning *  `
+  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,type)
+  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index}, '${data.type}') returning *  `
   pool_1.query(question_query , (err , result) => {
     if(err) throw err 
     let option_query = `insert into options(question_id,english_text,hindi_text) values `
@@ -36,8 +36,8 @@ router.post('/add_without_image' , upload.any() , (req , res) => {
 
 router.post('/add_without_image/pg' , upload.any() , (req , res) => {
   let data = JSON.parse(req.body.SendData)
-  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index)
-  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index}) returning * `
+  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,type)
+  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${data.type}') returning * `
   pool_2.query(question_query , (err , result) => {
     if(err) {console.log(err, "first") ; throw err }
     let option_query = `insert into options(question_id,english_text,hindi_text) values `
@@ -56,8 +56,8 @@ router.post('/add_without_image/pg' , upload.any() , (req , res) => {
 
 router.post('/add_with_image' , upload.single('question_image') , ( req , res) => {
   let data = JSON.parse(req.body.SendData)
-  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,pic)
-  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}')`
+  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,pic,type)
+  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}','${data.type}')`
   pool_1.query(question_query , (err , result) => {
     if(err) throw err 
     let option_query = `insert into options(question_id,english_text,hindi_text) values `
@@ -75,8 +75,8 @@ router.post('/add_with_image' , upload.single('question_image') , ( req , res) =
 
 router.post('/add_with_image/pg' , upload.single('question_image') , ( req , res ) => {
   let data = JSON.parse(req.body.SendData)
-  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,pic)
-  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}') returning * `
+  let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,pic,type)
+  values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}','${data.type}') returning * `
   pool_2.query(question_query , (err , result) => {
     if(err) throw err 
     console.log(result.rows, "hello...")
