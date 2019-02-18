@@ -28,5 +28,12 @@ router.post('/upload_pdf/pg' , upload.single('pdf') , ( req , res ) => {
     })
 })
  
+router.get('/get/:sub_category_id/pg' , (req , res) => {
+    let query = `select p.* , s.logo from pdf_files as p , sub_category as s where p.sub_category_id = s._id and p.sub_category_id = ${req.params.sub_category_id} `
+    pool_2.query(query , (err , result) => {
+        if(err) throw err
+        res.json(result.rows)
+    })
+})
 
 module.exports = router
