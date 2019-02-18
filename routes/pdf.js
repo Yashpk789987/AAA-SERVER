@@ -26,7 +26,7 @@ router.post('/upload_pdf/pg' , upload.single('pdf') , ( req , res ) => {
         if(err) throw err
         res.json({ message : "Uploaded Successfully ..."})
     })
- })
+})
  
 
 module.exports = router
