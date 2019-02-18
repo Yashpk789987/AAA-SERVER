@@ -93,4 +93,21 @@ router.post('/add_with_image/pg' , upload.single('question_image') , ( req , res
 })
 
 
+router.get('/fetch_questions_by_sub_category_id/:sub_category_id/pg' , ( req , res ) => {
+  let query = `SELECT o.* , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id}`;
+  pool_2.query(query , (err , result) => {
+    if(err) throw err
+    res.json(result.rows)
+  })
+})
+
+router.get('/fetch_questions_by_sub_category_id/:sub_category_id' , ( req , res ) => {
+  let query = `SELECT o.* , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id}`;
+  pool_1.query(query , (err , result) => {
+    if(err) throw err
+    res.json(result)
+  })
+})
+
+
 module.exports = router;
