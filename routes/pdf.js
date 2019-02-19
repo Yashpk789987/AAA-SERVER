@@ -1,6 +1,6 @@
 var express = require('express');
 var crypto = require('crypto');
-
+var mime = rqeuire('mime')
 var router = express.Router();
 var multer  = require('multer')
 var storage = multer.diskStorage({
