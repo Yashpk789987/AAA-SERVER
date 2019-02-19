@@ -1,7 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var multer  = require('multer')
-var upload = multer({ dest: 'uploads/pdfs/' })
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/pdfs/')
+    },
+    filename: function (req, file, cb) {
+      crypto.pseudoRandomBytes(16, function (err, raw) {
+        cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
+      });
+    }
+});
+
+var upload = multer({ storage: storage })
 var mysql = require('mysql');
 var pgsql = require('pg-pool')
 
