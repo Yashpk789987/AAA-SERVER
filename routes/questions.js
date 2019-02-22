@@ -102,7 +102,7 @@ router.get('/fetch_questions_by_sub_category_id/:sub_category_id/pg' , ( req , r
 })
 
 router.get('/fetch_questions_by_sub_category_id/:sub_category_id' , ( req , res ) => {
-  let query = `SELECT o.* , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id}`;
+  let query = `SELECT o.* , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id} order by q.type`;
   pool_1.query(query , (err , result) => {
     if(err) throw err
     res.json(result)
