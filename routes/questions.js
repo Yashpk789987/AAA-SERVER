@@ -95,10 +95,10 @@ router.post('/add_with_image/pg' , upload.single('question_image') , ( req , res
 
 router.get('/fetch_questions_by_sub_category_id/:sub_category_id/pg' , ( req , res ) => {
   let query = `SELECT o._id as option_id , o.question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id} order by type , question_id `;
-  console.log(query)
+  query += ` ; select count(type) , type from questions    where sub_category_id = ${req.params.sub_category_id} group by type order by type  `;
   pool_2.query(query , (err , result) => {
     if(err) throw err
-    res.json(result.rows)
+    res.json({questions : result[0].rows , types : result[1].rows})
   })
 })
 
