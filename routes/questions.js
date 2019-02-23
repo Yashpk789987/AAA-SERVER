@@ -36,6 +36,7 @@ router.post('/add_without_image' , upload.any() , (req , res) => {
 
 router.post('/add_without_image/pg' , upload.any() , (req , res) => {
   let data = JSON.parse(req.body.SendData)
+  console.log(data)
   let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,type)
   values(${data.sub_category_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${data.type}') returning * `
   pool_2.query(question_query , (err , result) => {
@@ -96,8 +97,9 @@ router.post('/add_with_image/pg' , upload.single('question_image') , ( req , res
 router.get('/fetch_questions_by_sub_category_id/:sub_category_id/pg' , ( req , res ) => {
   let query = `SELECT o._id as option_id , o.question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${req.params.sub_category_id} order by type , question_id `;
   query += ` ; select count(type) , type from questions    where sub_category_id = ${req.params.sub_category_id} group by type order by type  `;
+  console.log(query)
   pool_2.query(query , (err , result) => {
-    if(err) throw err
+    if(err) console.log(err) 
     res.json({questions : result[0].rows , types : result[1].rows})
   })
 })
