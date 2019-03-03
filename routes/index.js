@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/date' , ( req , res) => {
-  res.send((new Date()).toLocaleDateString())
+  res.send((new Date()).toString())
 })
 
 module.exports = router;
