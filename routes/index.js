@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/date' , ( req , res) => {
-  res.send((new Date()).toString("en-US", {timeZone: "Asia/Kolkata"}))
+  res.send(new Date())
 })
 
 module.exports = router;

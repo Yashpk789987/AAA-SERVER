@@ -11,7 +11,7 @@ var QuestionRouter = require('./routes/questions')
 var PdfRouter = require('./routes/pdf')
 var testsRouter = require('./routes/tests')
 var app = express();
-process.env.TZ = `India/Delhi`
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
