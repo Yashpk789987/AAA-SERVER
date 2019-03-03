@@ -4,7 +4,8 @@ module.exports  = {
                 host            : 'localhost',
                 user            : 'root',
                 password        : '123',
-                database        : 'aaa_academy'
+                database        : 'aaa_academy',
+                
         },
         pgsql : {
                 host : 'ec2-107-20-185-27.compute-1.amazonaws.com',
@@ -17,6 +18,7 @@ module.exports  = {
                 min: 4, 
                 idleTimeoutMillis: 10000, 
                 connectionTimeoutMillis: 10000, 
+                
         }
         
 };

@@ -7,4 +7,8 @@ router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
+router.get('/date' , ( req , res) => {
+  res.send((new Date()).toString())
+})
+
 module.exports = router;
