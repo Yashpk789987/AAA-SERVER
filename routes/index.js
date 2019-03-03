@@ -1,6 +1,7 @@
 var express = require('express');
 const path = require('path');
 var router = express.Router();
+var moment = require('moment-timezone');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/date' , ( req , res) => {
-  res.send(new Date())
+  res.send(moment(new Date()).tz("Asia/Kolkata").format("DD-MM-YYYY HH:mm:ss"))
 })
 
 module.exports = router;
