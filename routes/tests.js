@@ -4,7 +4,7 @@ var multer  = require('multer')
 var upload = multer({ dest: 'uploads/questions/' })
 var mysql = require('mysql');
 var pgsql = require('pg-pool')
-
+var moment = require('moment-timezone');
 var pool_1  = mysql.createPool({...require('../database').mysql});
 var pool_2 = new pgsql(require('../database').pgsql)
 
@@ -75,6 +75,32 @@ router.get('/fetch_test_by_id/:id/pg' , ( req , res ) => {
     res.json(obj)
   })
 })
+
+
+isOnline = (obj) => {
+  let allowed_days_in_seconds  = parseInt(obj.test_online_no_of_days) * 24 * 3600
+  let dateTime = obj.test_commence_date + ' ' + obj.test_commence_time
+  dateTime = moment(dateTime);
+  let currentDateTime = moment(moment(new Date()).tz("Asia/Kolkata"));
+  var diff = currentDateTime.diff(dateTime,'seconds');
+  if(!((diff < 0) || (diff > allowed_days_in_seconds))){
+    return obj
+  } 
+}
+
+
+router.get('/fetch_online_tests/pg' , ( req , res ) => {
+  let query = `select * from test order by _id desc `
+  pool_2.query(query, ( err , result ) => {
+    if(err) { console.log(err)}
+    const filterResult = result.rows.filter((item) => {return(isOnline(item))})
+    
+    console.log(filterResult.length);
+    res.json(filterResult);
+    
+  })
+})
+
 
 
 module.exports = router
