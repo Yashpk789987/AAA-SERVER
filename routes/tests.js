@@ -92,16 +92,29 @@ isOnline = (obj) => {
 router.get('/fetch_online_tests/pg' , ( req , res ) => {
   let query = `select * from test order by _id desc `
   pool_2.query(query, ( err , result ) => {
-    if(err) { console.log(err)}
+    if(err) { console.log(err) ; console.log(result) }
     const filterResult = result.rows.filter((item) => {return(isOnline(item))})
-    
-    console.log(filterResult.length);
     res.json(filterResult);
-    
   })
 })
 
+router.get('/fetch_test_questions_by_test_id/:test_id/pg' , ( req , res ) => {
+  let query = `SELECT o._id as option_id , o.test_question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM test_options o , test_questions q where o.test_question_id = q._id and q.test_id = ${req.params.test_id} order by  test_question_id `;
+  pool_2.query(query , (err , result) => {
+    if(err) console.log(err) 
+    res.json(result.rows)
+  })
+})
 
+router.post('/submit_test/pg' , ( req , res ) => {
+  let data = req.body
+  let query = `insert into result(test_id,student_id,result,time_taken)
+  values(${parseInt(data.test_id)},${parseInt(data.student_id)},'${data.result}','${data.time_taken}')`
+  pool_2.query(query, (err , result ) => {
+    if(err) { console.log(err)}
+    res.json({ code : "success" })
+  })
+})
 
 module.exports = router
 

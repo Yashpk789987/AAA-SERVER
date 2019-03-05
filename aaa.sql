@@ -166,6 +166,34 @@ INSERT INTO `questions` (`_id`,`sub_category_id`,`english_text`,`hindi_text`,`co
 
 
 --
+-- Definition of table `student`
+--
+
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student` (
+  `_id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(45) NOT NULL,
+  `fb_id` varchar(45) default NULL,
+  `fb_pic` varchar(45) default NULL,
+  `google_id` varchar(45) default NULL,
+  `google_name` varchar(45) default NULL,
+  `fb_json` varchar(200) default NULL,
+  `google_json` varchar(200) default NULL,
+  `email_id` varchar(45) default NULL,
+  `password` varchar(45) default NULL,
+  `valid` varchar(45) default 'true',
+  PRIMARY KEY  (`_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student`
+--
+
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
+
+
+--
 -- Definition of table `sub_category`
 --
 
