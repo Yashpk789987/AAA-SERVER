@@ -43,7 +43,7 @@ router.post('/add_testQuestion_without_image/pg' , upload.any() , (req , res) =>
 router.post('/add_testQuestion_with_image/pg' , upload.single('question_image') , ( req , res ) => {
   let data = JSON.parse(req.body.SendData)
   let question_query = `insert into test_questions(test_id,english_text,hindi_text,correct_option_index,pic)
-  values(${data.test_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}' returning * `
+  values(${data.test_id},'${data.english_text}','${data.hindi_text}',${data.correct_option_index},'${req.file.filename}') returning * `
   pool_2.query(question_query , (err , result) => {
     if(err) throw err 
     let option_query = `insert into test_options(test_question_id,english_text,hindi_text) values `
