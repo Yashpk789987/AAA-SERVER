@@ -10,6 +10,7 @@ var category_and_sub_category_Router = require('./routes/categories_and_sub_cate
 var QuestionRouter = require('./routes/questions')
 var PdfRouter = require('./routes/pdf')
 var testsRouter = require('./routes/tests')
+var studentRouter = require('./routes/student')
 var app = express();
 
 // view engine setup
@@ -28,6 +29,7 @@ app.use('/categories_and_sub_categories' , category_and_sub_category_Router)
 app.use('/questions', QuestionRouter)
 app.use('/pdf', PdfRouter)
 app.use('/tests', testsRouter)
+app.use('/students', studentRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
