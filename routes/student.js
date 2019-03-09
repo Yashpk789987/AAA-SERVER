@@ -13,8 +13,8 @@ router.get('/', function(req, res, next) {
 router.post('/student_login/pg', function(req, res) {
   let data = req.body
   if(data.login_type === 'fb'){
-      let query = `insert into student(fb_id,name,fb_pic)
-      values('${data.facebook_id}','${data.name}','${data.fb_pic_uri}') 
+      let query = `insert into student(fb_id,name,fb_pic,login_type)
+      values('${data.facebook_id}','${data.name}','${data.fb_pic_uri}','fb_login') 
       on conflict (fb_id) do nothing  returning * `
       pool_2.query(query, (err , result) => {
           if(err) { console.log(err) ; throw err}
@@ -39,9 +39,28 @@ router.post('/student_login/pg', function(req, res) {
             res.json({student : result.rows[0] , code : 'success'})
         }
       })
-  }
+  } else if(data.login_type === 'google'){
+    let query = `insert into student(google_id,name,google_pic,login_type,email_id)
+    values('${data.google_id}','${data.name}','${data.google_pic_uri}','google_login','${data.email}') 
+    on conflict (google_id) do nothing  returning * `
+    pool_2.query(query, (err , result) => {
+        if(err) { console.log(err) ; throw err}
+        if(result.rowCount === 0){
+            pool_2.query(`select * from student where google_id = '${data.google_id}'`, (err , result) => {
+                if(err){console.log(err)}
+                res.json(result.rows[0])
+            })
+        }else{
+            res.json(result.rows[0])
+        }
+    })
+}
 });
 
+
+router.get('/image' , ( req , res) => {
+    res.send(`<image src = 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=179097639724111&height=150&width=200&ext=1554664453&hash=AeRBdLb4_EEHwP6v' >`)
+})
 
 module.exports = router;
 
