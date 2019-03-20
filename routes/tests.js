@@ -88,6 +88,25 @@ isOnline = (obj) => {
   } 
 }
 
+isOffline = (obj) => {
+  let allowed_days_in_seconds  = parseInt(obj.test_online_no_of_days) * 24 * 3600
+  let dateTime = obj.test_commence_date + ' ' + obj.test_commence_time
+  dateTime = moment(dateTime);
+  let currentDateTime = moment(moment(new Date()).tz("Asia/Kolkata"));
+  var diff = currentDateTime.diff(dateTime,'seconds');
+  if((diff < 0) || (diff > allowed_days_in_seconds)){
+    return obj
+  } 
+}
+
+router.get('/fetch_offline_tests/pg' , ( req , res ) => {
+  let query = `select * from test order by _id desc limit 50 `
+  pool_2.query(query, ( err , result ) => {
+    if(err) {console.log(err)}
+    const filterResult = result.rows.filter((item) => {return(isOffline(item))})
+    res.json(filterResult);
+  })
+})
 
 router.get('/fetch_online_tests/pg' , ( req , res ) => {
   let query = `select * from test order by _id desc `

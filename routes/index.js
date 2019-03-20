@@ -8,6 +8,10 @@ router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
+router.get('/error' , ( req , res ) => {
+  res.render('error.ejs')
+})
+
 router.get('/date' , ( req , res) => {
   res.send(moment(new Date()).tz("Asia/Kolkata").format("DD-MM-YYYY HH:mm:ss"))
 })

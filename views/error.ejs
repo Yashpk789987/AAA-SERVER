@@ -1,3 +1,24 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.16/Dropbox-sdk.js" ></script>
+    <form onSubmit="uploadFile(); return false">
+        <input type="text" id="access-token" placeholder="Access token" />
+        <input type="file" id="file-upload" />
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+       function uploadFile(e) {
+        var dbx = new Dropbox.Dropbox({ accessToken: 'Oj7KxgQ-9jAAAAAAAAACr5KHBZfqpIv373hkgift1ZCjubOqu8B_gyoH12Tnbq_k' });
+        var fileInput = document.getElementById('file-upload');
+        var file = fileInput.files[0];
+        
+          dbx.filesUpload({path: '/' + file.name, contents: file})
+            .then(function(response) {
+              var results = document.getElementById('results');
+              console.log(response);
+            })
+            .catch(function(error) {
+              console.error(error);
+            });
+      }
+    </script>
+</html>

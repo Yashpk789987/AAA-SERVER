@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var mime = require('mime')
 var router = express.Router();
 var multer  = require('multer')
+
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/pdfs/')
@@ -48,5 +49,10 @@ router.get('/get/:sub_category_id/pg' , (req , res) => {
         res.json(result.rows)
     })
 })
+
+
+
+
+
 
 module.exports = router

@@ -82,10 +82,37 @@ router.get('/sub_categories/:category_id' , ( req , res) => {
   })
 })
 
+
 router.get('/sub_categories/:category_id/pg' , ( req , res) => {
   pool_2.query(`select * from sub_category where category_id = ${req.params.category_id}` , (err , result) => {
       if(err) throw err
       res.json(result.rows)
+  })
+})
+
+router.get('/fetch_sub_category_by_id/:sub_category_id/pg' , ( req , res ) => {
+  pool_2.query(`select * from sub_category where _id = ${req.params.sub_category_id}`, ( err , result ) => {
+    if(err) {console.log(err) ; throw err}
+    res.json(result.rows[0])
+  })
+})
+
+router.post('/update_sub_category_data/pg' , ( req , res ) => { 
+  let data = req.body
+  let query = ` update sub_category set english_name = '${data.english_name}' , hindi_name = '${data.hindi_name}' , category_id = ${data.category_id} 
+  where _id = ${parseInt(data._id)}`
+  pool_2.query(query , ( err , result) => {
+    if(err) { console.log(err) ; throw err }
+    res.json({ message : "Updated Successfully ....."})
+  })
+})
+
+router.post('/update_sub_category_image/pg' , upload.single('logo') ,  ( req , res ) => { 
+  let data = req.body
+  let query = ` update sub_category set logo = '${req.file.filename}' where _id = ${parseInt(data._id)}`
+  pool_2.query(query , ( err , result) => {
+    if(err) { console.log(err) ; throw err }
+    res.json({ message : "Updated Successfully ....." , image_url : req.file.filename })
   })
 })
 
