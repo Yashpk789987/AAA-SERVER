@@ -115,6 +115,8 @@ router.get('/fetch_test_by_id/:id/pg', (req, res) => {
   });
 });
 
+///// TO BE VIEWED LATER ///////
+
 // isOnline = obj => {
 //   let allowed_days_in_seconds =
 //     parseInt(obj.test_online_no_of_days) * 24 * 3600;
@@ -126,6 +128,8 @@ router.get('/fetch_test_by_id/:id/pg', (req, res) => {
 //     return obj;
 //   }
 // };
+
+///// TO BE VIEWED LATER ///////
 
 isOnline = obj => {
   let end_date_time = obj.test_commence_date + ' ' + obj.end_time;
