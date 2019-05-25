@@ -10,13 +10,14 @@ var pool_2 = new pgsql(require('../database').pgsql);
 
 router.post('/create/pg', function(req, res) {
   let data = req.body;
+  console.log(data.end_time);
   let query = `insert into test(english_title, hindi_title, test_commence_date, test_commence_time, test_allowed_time_in_seconds, 
-    test_online_no_of_days) values('${data.english_title}', '${
+    end_time, test_online_no_of_days) values('${data.english_title}', '${
     data.hindi_title
   }', '${data.test_commence_date}',
     '${data.test_commence_time}','${data.test_duration_in_seconds}','${
-    data.test_online_no_of_days
-  }') returning * `;
+    data.end_time
+  }','') returning * `;
   pool_2.query(query, (err, result) => {
     if (err) {
       console.log(err);
@@ -114,14 +115,31 @@ router.get('/fetch_test_by_id/:id/pg', (req, res) => {
   });
 });
 
+// isOnline = obj => {
+//   let allowed_days_in_seconds =
+//     parseInt(obj.test_online_no_of_days) * 24 * 3600;
+//   let dateTime = obj.test_commence_date + ' ' + obj.test_commence_time;
+//   dateTime = moment(dateTime);
+//   let currentDateTime = moment(moment(new Date()).tz('Asia/Kolkata'));
+//   var diff = currentDateTime.diff(dateTime, 'seconds');
+//   if (!(diff < 0 || diff > allowed_days_in_seconds)) {
+//     return obj;
+//   }
+// };
+
 isOnline = obj => {
-  let allowed_days_in_seconds =
-    parseInt(obj.test_online_no_of_days) * 24 * 3600;
-  let dateTime = obj.test_commence_date + ' ' + obj.test_commence_time;
-  dateTime = moment(dateTime);
+  let end_date_time = obj.test_commence_date + ' ' + obj.end_time;
+  let start_date_Time = obj.test_commence_date + ' ' + obj.test_commence_time;
+  start_date_Time = moment(start_date_Time);
+  end_date_time = moment(end_date_time);
   let currentDateTime = moment(moment(new Date()).tz('Asia/Kolkata'));
-  var diff = currentDateTime.diff(dateTime, 'seconds');
-  if (!(diff < 0 || diff > allowed_days_in_seconds)) {
+  var difference_with_start_time = currentDateTime.diff(
+    start_date_Time,
+    'seconds'
+  );
+  var range = end_date_time.diff(start_date_Time, 'seconds');
+  console.log(difference_with_start_time, range);
+  if (!(difference_with_start_time < 0 || difference_with_start_time > range)) {
     return obj;
   }
 };
