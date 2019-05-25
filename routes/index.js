@@ -16,4 +16,8 @@ router.get('/date' , ( req , res) => {
   res.send(moment(new Date()).tz("Asia/Kolkata").format("DD-MM-YYYY HH:mm:ss"))
 })
 
+router.get('/download' , ( req, res ) => {
+  res.render('Download.ejs');
+})
+
 module.exports = router;
