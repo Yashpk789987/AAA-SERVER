@@ -172,7 +172,7 @@ isOffline = obj => {
   console.log('Current Date Time', currentDateTime);
   console.log('Start Time :', start_date_Time);
   console.log('Difference ', difference_with_start_time);
-  if ((difference_with_start_time > range)) {
+  if (difference_with_start_time > range) {
     return obj;
   }
 };
