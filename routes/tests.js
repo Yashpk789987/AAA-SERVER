@@ -141,11 +141,11 @@ isOnline = obj => {
     start_date_Time,
     'seconds'
   );
-  console.log('Current Date Time', currentDateTime);
+
   var range = end_date_time.diff(start_date_Time, 'seconds');
+  console.log('Current Date Time', currentDateTime);
   console.log('Start Time :', start_date_Time);
-  console.log('End Time', end_date_time);
-  console.log(difference_with_start_time, range);
+  console.log('Difference ', difference_with_start_time);
   if (!(difference_with_start_time < 0 || difference_with_start_time > range)) {
     return obj;
   }
