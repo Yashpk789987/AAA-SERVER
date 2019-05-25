@@ -32,7 +32,7 @@ app.use('/pdf', PdfRouter);
 app.use('/tests', testsRouter);
 app.use('/students', studentRouter);
 app.use('/authorize', authorizeRouter);
-// catch 404 and forward to error handler
+
 app.use(function(req, res, next) {
   next(createError(404));
 });

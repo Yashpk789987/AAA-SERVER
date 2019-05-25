@@ -136,9 +136,6 @@ isOnline = obj => {
   let start_date_Time = obj.test_commence_date + ' ' + obj.test_commence_time;
   start_date_Time = moment(start_date_Time);
   end_date_time = moment(end_date_time);
-  // let currentDateTime = moment(
-  //   moment(new Date()).tz('Asia/Kolkata')
-  // ).parseZone();
   let currentDateTime = moment(
     new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
   );
@@ -158,13 +155,24 @@ isOnline = obj => {
 };
 
 isOffline = obj => {
-  let allowed_days_in_seconds =
-    parseInt(obj.test_online_no_of_days) * 24 * 3600;
-  let dateTime = obj.test_commence_date + ' ' + obj.test_commence_time;
-  dateTime = moment(dateTime);
-  let currentDateTime = moment(moment(new Date()).tz('Asia/Kolkata'));
-  var diff = currentDateTime.diff(dateTime, 'seconds');
-  if (diff < 0 || diff > allowed_days_in_seconds) {
+  let end_date_time = obj.test_commence_date + ' ' + obj.end_time;
+  let start_date_Time = obj.test_commence_date + ' ' + obj.test_commence_time;
+  start_date_Time = moment(start_date_Time);
+  end_date_time = moment(end_date_time);
+  let currentDateTime = moment(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+  );
+
+  var difference_with_start_time = currentDateTime.diff(
+    start_date_Time,
+    'seconds'
+  );
+
+  var range = end_date_time.diff(start_date_Time, 'seconds');
+  console.log('Current Date Time', currentDateTime);
+  console.log('Start Time :', start_date_Time);
+  console.log('Difference ', difference_with_start_time);
+  if ((difference_with_start_time > range)) {
     return obj;
   }
 };
