@@ -136,9 +136,13 @@ isOnline = obj => {
   let start_date_Time = obj.test_commence_date + ' ' + obj.test_commence_time;
   start_date_Time = moment(start_date_Time);
   end_date_time = moment(end_date_time);
+  // let currentDateTime = moment(
+  //   moment(new Date()).tz('Asia/Kolkata')
+  // ).parseZone();
   let currentDateTime = moment(
-    moment(new Date()).tz('Asia/Kolkata')
-  ).parseZone();
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+  );
+
   var difference_with_start_time = currentDateTime.diff(
     start_date_Time,
     'seconds'
