@@ -10,7 +10,6 @@ var pool_2 = new pgsql(require('../database').pgsql);
 
 router.post('/create/pg', function(req, res) {
   let data = req.body;
-  console.log(data.end_time);
   let query = `insert into test(english_title, hindi_title, test_commence_date, test_commence_time, test_allowed_time_in_seconds, 
     end_time, test_online_no_of_days) values('${data.english_title}', '${
     data.hindi_title
@@ -146,9 +145,6 @@ isOnline = obj => {
   );
 
   var range = end_date_time.diff(start_date_Time, 'seconds');
-  console.log('Current Date Time', currentDateTime);
-  console.log('Start Time :', start_date_Time);
-  console.log('Difference ', difference_with_start_time);
   if (!(difference_with_start_time < 0 || difference_with_start_time > range)) {
     return obj;
   }
@@ -169,16 +165,13 @@ isOffline = obj => {
   );
 
   var range = end_date_time.diff(start_date_Time, 'seconds');
-  console.log('Current Date Time', currentDateTime);
-  console.log('Start Time :', start_date_Time);
-  console.log('Difference ', difference_with_start_time);
   if (difference_with_start_time > range) {
     return obj;
   }
 };
 
 router.get('/fetch_offline_tests/pg', (req, res) => {
-  let query = `select * from test order by _id desc , random() limit 50 `;
+  let query = `select * from test order by _id desc  limit 50 `;
   pool_2.query(query, (err, result) => {
     if (err) {
       console.log(err);
@@ -209,7 +202,7 @@ router.get('/fetch_online_tests/:student_id/pg', (req, res) => {
 router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
   let query = `SELECT o._id as option_id , o.test_question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM test_options o , test_questions q where o.test_question_id = q._id and q.test_id = ${
     req.params.test_id
-  } order by  test_question_id `;
+  } order by  test_question_id  , random() `;
   pool_2.query(query, (err, result) => {
     if (err) console.log(err);
     res.json(result.rows);
