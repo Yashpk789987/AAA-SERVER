@@ -202,7 +202,7 @@ router.get('/fetch_online_tests/:student_id/pg', (req, res) => {
 router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
   let query = `SELECT o._id as option_id , o.test_question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM test_options o , test_questions q where o.test_question_id = q._id and q.test_id = ${
     req.params.test_id
-  } order by  test_question_id  , random() `;
+  } order by  test_question_id `;
   pool_2.query(query, (err, result) => {
     if (err) console.log(err);
     res.json(result.rows);
@@ -211,10 +211,11 @@ router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
 
 router.post('/submit_test/pg', (req, res) => {
   let data = req.body;
-  let query = `insert into result(test_id,student_id,result,time_taken)
-  values(${parseInt(data.test_id)},${parseInt(data.student_id)},'${
-    data.result
-  }','${data.time_taken}')`;
+  let query = `insert into result(test_id,student_id,correct,incorrect,skipped,totalMarks,result,time_taken)
+  values(${parseInt(data.test_id)},${parseInt(data.student_id)},
+  '${data.correct}','${data.incorrect}','${data.skipped}','${
+    data.totalMarks
+  }','${data.result}','${data.time_taken}')`;
   pool_2.query(query, (err, result) => {
     if (err) {
       console.log(err);
