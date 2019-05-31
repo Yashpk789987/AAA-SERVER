@@ -178,7 +178,7 @@ isOffline = obj => {
 };
 
 router.get('/fetch_offline_tests/pg', (req, res) => {
-  let query = `select * from test order by _id desc limit 50 `;
+  let query = `select * from test order by _id desc , random() limit 50 `;
   pool_2.query(query, (err, result) => {
     if (err) {
       console.log(err);
