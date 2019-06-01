@@ -12,6 +12,7 @@
     "dropbox": "^4.0.16",
     "ejs": "~2.5.7",
     "express": "~4.16.0",
+    "gm": "^1.23.1",
     "http-errors": "~1.6.2",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
