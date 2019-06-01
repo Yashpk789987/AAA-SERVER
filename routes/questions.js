@@ -108,7 +108,7 @@ router.post(
       option_query = option_query.substr(0, option_query.length - 2);
       pool_2.query(option_query, (err, result) => {
         if (err) throw err;
-        gm(`../uploads/questions/${req.file.filename}`).resize(900, 350);
+        //gm(`../uploads/questions/${req.file.filename}`).resize(900, 350);
         res.json({ message: 'Question Added Successfully....' });
       });
     });
