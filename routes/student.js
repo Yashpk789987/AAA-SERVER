@@ -12,7 +12,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/err', function(req, res, next) {
   pool_2.query(' hdcjcdj ', (err, result) => {
-    if (err) throw err;
+    if (err)
+      try {
+      } catch (error) {
+        console.log(error);
+      }
     res.json(result);
   });
 });
