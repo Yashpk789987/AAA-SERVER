@@ -237,7 +237,7 @@ router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
   try {
     let query = `SELECT o._id as option_id , o.test_question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM test_options o , test_questions q where o.test_question_id = q._id and q.test_id = ${
       req.params.test_id
-    }  `;
+    }   order by o._id `;
     pool_2.query(query, (err, result) => {
       if (err) console.log(err);
       res.json(result.rows);
