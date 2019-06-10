@@ -89,4 +89,21 @@ router.get('/image', (req, res) => {
   );
 });
 
+router.post('/insert_token/pg', (req, res) => {
+  let data = req.body;
+  pool_2.query(
+    `update student set push_notification_token = '${data.token}' where _id = ${
+      data.student_id
+    }`,
+    (err, result) => {
+      try {
+        res.json({ 'token_updated ': true });
+      } catch (error) {
+        console.log(error);
+        res.json({ token_updated: false });
+      }
+    }
+  );
+});
+
 module.exports = router;
