@@ -266,4 +266,18 @@ router.post('/submit_test/pg', (req, res) => {
   }
 });
 
+router.get('/results/:test_id/pg', (req, res) => {
+  let query = `select row_number() over (order by cast(r.result as double precision) desc , cast(r.time_taken as double precision)) as rank  ,(select s.name from student as s where s._id = r.student_id) as name , (r.result || ' %') as RESULT ,r.time_taken,r.incorrect,r.correct,r.skipped,r.totalmarks    from result as r where test_id = '${
+    req.params.test_id
+  }' order by cast(r.result as double precision) desc , cast(r.time_taken as double precision)`;
+  pool_2.query(query, (err, result) => {
+    if (err) console.log(err);
+    try {
+      res.json(result.rows);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+});
+
 module.exports = router;
