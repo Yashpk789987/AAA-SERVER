@@ -13,6 +13,13 @@ var testsRouter = require('./routes/tests');
 var studentRouter = require('./routes/student');
 var authorizeRouter = require('./routes/authorize');
 var app = express();
+var cookieSession = require('cookie-session');
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2']
+  })
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -19,4 +19,23 @@ router.post('/authorize/pg', (req, res) => {
   }
 });
 
+router.get('/get/pg', (req, res) => {
+  let query = 'select * from authorize ';
+  pool_2.query(query, (err, result) => {
+    if (err) throw err;
+    res.json(result.rows[0]);
+  });
+});
+
+router.post('/update/pg', (req, res) => {
+  let data = req.body;
+  let query = `update authorize set code = '${data.code}' , password = '${
+    data.password
+  }' `;
+  pool_2.query(query, (err, result) => {
+    if (err) throw err;
+    res.json({ code: 'success' });
+  });
+});
+
 module.exports = router;

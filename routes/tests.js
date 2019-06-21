@@ -12,12 +12,12 @@ router.post('/create/pg', function(req, res) {
   try {
     let data = req.body;
     let query = `insert into test(english_title, hindi_title, test_commence_date, test_commence_time, test_allowed_time_in_seconds, 
-    end_time, test_online_no_of_days) values('${data.english_title}', '${
-      data.hindi_title
-    }', '${data.test_commence_date}',
+    end_time, test_online_no_of_days, set_password, shuffle_required) values('${
+      data.english_title
+    }', '${data.hindi_title}', '${data.test_commence_date}',
     '${data.test_commence_time}','${data.test_duration_in_seconds}','${
       data.end_time
-    }','') returning * `;
+    }','','${data.set_password}','${data.shuffle_required}') returning * `;
     pool_2.query(query, (err, result) => {
       if (err) {
         console.log(err);
