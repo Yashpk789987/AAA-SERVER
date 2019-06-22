@@ -42,7 +42,6 @@ router.post('/add_testQuestion_without_image/pg', upload.any(), (req, res) => {
     }) returning * `;
     pool_2.query(question_query, (err, result) => {
       if (err) {
-        console.log(err, 'first');
         throw err;
       }
       let option_query = `insert into test_options(test_question_id,english_text,hindi_text) values `;
