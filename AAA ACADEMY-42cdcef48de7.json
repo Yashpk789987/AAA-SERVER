@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  
+  "project_id": "aaa-academy-233404",
+  "private_key_id": "42cdcef48de70bc0c1fe4f0ad05a81632015720c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCQXlv4NmWGfSyw\n1jDzw8mnYuLX9xU0i17vy0fcNKOfRny2Xbf5Zr6qkErLenhO4kzXnjiSuk765vY8\nnqTtpZoKY8eHuUq1O+ZdNSRBLI4akCNtOEljzeoq+SIeStZanLmQfOaSgnTn9kA7\nrUWmL7790CNqPPEGcr+bKAE8tX6J7tIKnA0Fm7tFiph16OGvmqhZ+iex29eswne4\nTxwwa7wKfSk1HkLJQJfHzEGuBhis/vjIQIXHC9YewoAkiKjwZvcrB5K2paXL4izm\nKbweECEzc58UxKUd1Ja2vFbARiG8oPES51gHEDVi4e2nzjGZmjRXmrRT1Fs1Tdhl\n6hx6JOHZAgMBAAECggEAAvSnmeCVOghoiJNOC8OTppVn8wd4O+vpjOvCxB+gxPNG\nvN4U1OqVVz0ehuVyPp0z+QsgeeKOGOVvH6UY19O24GUUEfOJc8Xu7LQYkqwEmccf\nLo6DNCOkWm5g1DFwi4jfZLWl69R3a8NXI9GjligulxgyjWuDfMAPK7BJPDK0DUNa\nT0ZkrPbw6ad1blqKkIMjTPurRLlni5OKvzaaqCTv171ZM8lV3wu/Ty+BYkc90dis\nIp22EMH7dGkXLVxce3gupZEJrcj1irP6ibUjVbNatHjNuYxvn800Uet3ZtBCbl1O\nJFcOnkcY5uDPDkW4NG9S8JWKJCRpLB3WDzsf1f3xbQKBgQDL/bmyERrT+VY+2Hw6\nFoCR1AirSJGQ8s7XdK/OwLCHmOwRB0FsvILYMSE63ci+HF9vOczY0JXWni2nKI9k\nL3rFzIZh/w9SV1B4SqNagvvkj6fNqFLDOqSQut6KZGsp+ac/1VLzurzNgRxsfEER\n7J1Lm+KGiPODYWYjAuCrdbBozQKBgQC1LSM8N2cfLsBISdBD/hbthtr4yF5myKBU\nbAEDvfCI4ns2NCbVsNm6QlL2EI/CPt5ocjIaS2dQX1OgX/2v0n38eKf4ayWxuaId\nmt8Loqy/jwumPJJ5tyWBpLar6vgQrzsJ4pRyiz9KUDOznr1Bm566SsW65hq8usQj\np2brJu+NPQKBgGlD7j54WyrFwP6/QiPLlt8p1qtk0FFHKvu96Dc98hqXDEKhRt6w\nzKh5eddhuYR5KbpAzneX86qDh7V51bzyT12g9Du/ng10pz7b7T3417mTdBlJYiQC\nsAdLlyk9Npu7i9YB5EOHuoQluyA0YnO4cVciAxw/scG7UjSA+KUiHz2FAoGAUKr0\nUU9pvtyWCJm0/VEY7FFrFfJA9grGOFCOcxgTDR+qNIwr7mF70A7P2XeuSpKrfF28\nKTEBoyuOlI2o6qwSJGOkhltOwT8iC4R1YzzfJbuPOEkn/sGpFXw9SXapVORwqQoV\nhpqxZ2kmXAeFxLyBg/je6USjCv0tb6KNlI4VgxECgYBSwDXf9Zhv+MPj85W5iEoc\nrkxaB/C4JOl2W6K/c7Vtchjyq94xh9l/9ab4ZpXFnX0jaZbklD3DPapGyZeW4uX5\nr2Z+eh9iVBTCd4HUUuBTuT/pTyvNoZTMJCpefg7t3tI8AbFFyGU1fMlMR1t8wdJn\nfbXRdqbiPbCsBNBlxjXx3Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "aaa-files-upload@aaa-academy-233404.iam.gserviceaccount.com",
+  "client_id": "100018242922883045366",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aaa-files-upload%40aaa-academy-233404.iam.gserviceaccount.com"
+}
