@@ -106,7 +106,9 @@ router.get('/sub_categories/:category_id', (req, res) => {
 
 router.get('/sub_categories/:category_id/pg', (req, res) => {
   pool_2.query(
-    `select * from sub_category where category_id = ${req.params.category_id}`,
+    `select * from sub_category where category_id = ${
+      req.params.category_id
+    } order by english_name `,
     (err, result) => {
       if (err) throw err;
       res.json(result.rows);
