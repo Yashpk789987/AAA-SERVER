@@ -12,6 +12,7 @@ var PdfRouter = require('./routes/pdf');
 var testsRouter = require('./routes/tests');
 var studentRouter = require('./routes/student');
 var authorizeRouter = require('./routes/authorize');
+var Payment_Gateway_Router = require('./routes/PAYMENT_GATEWAY');
 var app = express();
 var cookieSession = require('cookie-session');
 app.use(
@@ -39,6 +40,7 @@ app.use('/pdf', PdfRouter);
 app.use('/tests', testsRouter);
 app.use('/students', studentRouter);
 app.use('/authorize', authorizeRouter);
+app.use('/payment', Payment_Gateway_Router);
 
 app.use(function(req, res, next) {
   next(createError(404));
