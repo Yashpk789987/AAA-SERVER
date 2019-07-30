@@ -28,7 +28,7 @@ var pgsql = require('pg-pool');
 var pool_1 = mysql.createPool(require('../database').mysql);
 var pool_2 = new pgsql(require('../database').pgsql);
 
-router.post('/upload_pdf/pg', upload.single('pdf'), (req, res) => {
+router.post('/upload_pdf/p', upload.single('pdf'), (req, res) => {
   try {
     let data = JSON.parse(req.body.SendData);
     let query = `insert into pdf_files(sub_category_id , english_name , hindi_name , filename)
@@ -44,7 +44,7 @@ router.post('/upload_pdf/pg', upload.single('pdf'), (req, res) => {
   }
 });
 
-router.get('/get/:sub_category_id/pg', (req, res) => {
+router.get('/get/:sub_category_id/p', (req, res) => {
   try {
     let query = `select p.* , s.logo from pdf_files as p , sub_category as s where p.sub_category_id = s._id and p.sub_category_id = ${
       req.params.sub_category_id

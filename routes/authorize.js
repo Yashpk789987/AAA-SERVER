@@ -3,7 +3,7 @@ var router = express.Router();
 var pgsql = require('pg-pool');
 var pool_2 = new pgsql(require('../database').pgsql);
 
-router.post('/authorize/pg', (req, res) => {
+router.post('/authorize/p', (req, res) => {
   try {
     const { test_code, password } = req.body;
     let query = `select * from authorize where code = '${test_code}' and password = '${password}'`;
@@ -19,7 +19,7 @@ router.post('/authorize/pg', (req, res) => {
   }
 });
 
-router.get('/get/pg', (req, res) => {
+router.get('/get/p', (req, res) => {
   let query = 'select * from authorize ';
   pool_2.query(query, (err, result) => {
     if (err) throw err;
@@ -27,7 +27,7 @@ router.get('/get/pg', (req, res) => {
   });
 });
 
-router.post('/update/pg', (req, res) => {
+router.post('/update/p', (req, res) => {
   let data = req.body;
   let query = `update authorize set code = '${data.code}' , password = '${
     data.password

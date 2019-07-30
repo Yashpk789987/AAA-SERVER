@@ -18,7 +18,6 @@ router.get('/error', (req, res) => {
 });
 
 router.post('/upload_on_gcd', (req, res) => {
-  console.log('hello....');
   gc.getBuckets.then(x => console.log(x)).catch(err => console.log(err));
   res.end();
 });

@@ -19,7 +19,7 @@ router.post('/add_category', (req, res) => {
   );
 });
 
-router.post('/add_category/pg', (req, res) => {
+router.post('/add_category/p', (req, res) => {
   pool_2.query(
     `insert into category(english_name, hindi_name) values('${
       req.body.english_name
@@ -48,7 +48,7 @@ router.post(
 );
 
 router.post(
-  '/add_sub_category/pg',
+  '/add_sub_category/p',
   upload.single('sub_category_image'),
   (req, res) => {
     let data = JSON.parse(req.body.SendData);
@@ -70,7 +70,7 @@ router.get('/fetch_all_categories', (req, res) => {
   });
 });
 
-router.get('/fetch_all_categories/pg', (req, res) => {
+router.get('/fetch_all_categories/p', (req, res) => {
   pool_2.query(`select * from category`, (err, result) => {
     if (err) throw err;
     res.json(result.rows);
@@ -84,7 +84,7 @@ router.get('/fetch_all_sub_categories', (req, res) => {
   });
 });
 
-router.get('/fetch_all_sub_categories/pg', (req, res) => {
+router.get('/fetch_all_sub_categories/p', (req, res) => {
   pool_2.query(
     `select * from sub_category order by english_name `,
     (err, result) => {
@@ -104,7 +104,7 @@ router.get('/sub_categories/:category_id', (req, res) => {
   );
 });
 
-router.get('/sub_categories/:category_id/pg', (req, res) => {
+router.get('/sub_categories/:category_id/p', (req, res) => {
   pool_2.query(
     `select * from sub_category where category_id = ${
       req.params.category_id
@@ -116,7 +116,7 @@ router.get('/sub_categories/:category_id/pg', (req, res) => {
   );
 });
 
-router.get('/fetch_sub_category_by_id/:sub_category_id/pg', (req, res) => {
+router.get('/fetch_sub_category_by_id/:sub_category_id/p', (req, res) => {
   pool_2.query(
     `select * from sub_category where _id = ${req.params.sub_category_id}`,
     (err, result) => {
@@ -129,7 +129,7 @@ router.get('/fetch_sub_category_by_id/:sub_category_id/pg', (req, res) => {
   );
 });
 
-router.post('/update_sub_category_data/pg', (req, res) => {
+router.post('/update_sub_category_data/p', (req, res) => {
   let data = req.body;
   let query = ` update sub_category set english_name = '${
     data.english_name
@@ -145,7 +145,7 @@ router.post('/update_sub_category_data/pg', (req, res) => {
 });
 
 router.post(
-  '/update_sub_category_image/pg',
+  '/update_sub_category_image/p',
   upload.single('logo'),
   (req, res) => {
     let data = req.body;

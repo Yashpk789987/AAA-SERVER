@@ -7,6 +7,7 @@ router.get('/test_payment_instamojo', (req, res) => {
     'X-Api-Key': 'test_d23de9e296e298e0bfb8062ad46',
     'X-Auth-Token': 'test_94e327959ece8b0afa8d84af11c'
   };
+
   var payload = {
     purpose: 'Made Easy 16',
     amount: '9',
@@ -24,13 +25,13 @@ router.get('/test_payment_instamojo', (req, res) => {
     'https://test.instamojo.com/api/1.1/payment-requests/',
     { form: payload, headers: headers },
     function(error, response, body) {
-      console.log(error, response, body);
+      console.log('hello');
       if (!error && response.statusCode == 201) {
         console.log(body);
+        res.json(JSON.parse(body));
       }
     }
   );
-  res.end();
 });
 
 module.exports = router;

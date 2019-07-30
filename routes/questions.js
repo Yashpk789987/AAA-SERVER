@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/add_without_image/pg', upload.any(), (req, res) => {
+router.post('/add_without_image/p', upload.any(), (req, res) => {
   try {
     let data = JSON.parse(req.body.SendData);
     let question_query = `insert into questions(sub_category_id,english_text,hindi_text,correct_option_index,type)
@@ -46,7 +46,7 @@ router.post('/add_without_image/pg', upload.any(), (req, res) => {
 });
 
 router.post(
-  '/add_with_image/pg',
+  '/add_with_image/p',
   upload.single('question_image'),
   (req, res) => {
     try {
@@ -76,7 +76,7 @@ router.post(
 );
 
 router.get(
-  '/fetch_questions_by_sub_category_id/:sub_category_id/pg',
+  '/fetch_questions_by_sub_category_id/:sub_category_id/p',
   (req, res) => {
     try {
       let query = `SELECT o._id as option_id , o.question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM options o , questions q where o.question_id = q._id and q.sub_category_id = ${

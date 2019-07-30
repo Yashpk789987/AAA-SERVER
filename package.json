@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "forever ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@google-cloud/storage": "^2.5.0",
@@ -26,6 +26,7 @@
     "nodemon": "^1.18.7",
     "pdftohtmljs": "^0.5.2",
     "pg": "^7.8.0",
+    "pg-promise": "^8.7.5",
     "request": "^2.88.0"
   }
 }

@@ -5,10 +5,12 @@ var upload = multer({ dest: 'uploads/questions/' });
 var mysql = require('mysql');
 var pgsql = require('pg-pool');
 var moment = require('moment-timezone');
-var pool_1 = mysql.createPool({ ...require('../database').mysql });
-var pool_2 = new pgsql(require('../database').pgsql);
 
-router.post('/create/pg', function(req, res) {
+var pool_2 = new pgsql(require('../database').pgsql);
+var pgp = require('pg-promise')(/*options*/);
+var db = pgp(require('../database').pgsql);
+
+router.post('/create/p', function(req, res) {
   try {
     let data = req.body;
     let query = `insert into test(english_title, hindi_title, test_commence_date, test_commence_time, test_allowed_time_in_seconds, 
@@ -33,7 +35,7 @@ router.post('/create/pg', function(req, res) {
   }
 });
 
-router.post('/add_testQuestion_without_image/pg', upload.any(), (req, res) => {
+router.post('/add_testQuestion_without_image/p', upload.any(), (req, res) => {
   try {
     let data = JSON.parse(req.body.SendData);
     let question_query = `insert into test_questions(test_id,english_text,hindi_text,correct_option_index)
@@ -66,7 +68,7 @@ router.post('/add_testQuestion_without_image/pg', upload.any(), (req, res) => {
 });
 
 router.post(
-  '/add_testQuestion_with_image/pg',
+  '/add_testQuestion_with_image/p',
   upload.single('question_image'),
   (req, res) => {
     try {
@@ -95,7 +97,7 @@ router.post(
   }
 );
 
-router.get('/fetch_all_test/pg', (req, res) => {
+router.get('/fetch_all_test/p', (req, res) => {
   try {
     let query = `select * from test order by _id desc `;
     pool_2.query(query, (err, result) => {
@@ -108,7 +110,7 @@ router.get('/fetch_all_test/pg', (req, res) => {
   } catch (error) {}
 });
 
-router.get('/fetch_test_by_id/:id/pg', (req, res) => {
+router.get('/fetch_test_by_id/:id/p', (req, res) => {
   try {
     let query = `select * from test where _id = ${
       req.params.id
@@ -195,10 +197,20 @@ isOffline = obj => {
   }
 };
 
-router.get('/fetch_offline_tests/pg', (req, res) => {
-  try {
-    let query = `select * from test order by _id desc  limit 50 `;
-    pool_2.query(query, (err, result) => {
+router.get('/fetch_offline_tests/:student_id/p', (req, res) => {
+  let query1 = `select offline_test_allowed from student where _id = ${
+    req.params.student_id
+  }`;
+  let query2 = null;
+  pool_2.query(query1, (err, result) => {
+    if (err) throw err;
+
+    if (result.rows[0].offline_test_allowed === 'true') {
+      query2 = `select * from test order by _id desc  limit 50 `;
+    } else {
+      query2 = `select * from test where set_as_demo_test = 'true' `;
+    }
+    pool_2.query(query2, (err, result) => {
       if (err) {
         console.log(err);
       }
@@ -207,32 +219,37 @@ router.get('/fetch_offline_tests/pg', (req, res) => {
       });
       res.json(filterResult);
     });
-  } catch (err) {
-    console.log(err);
-  }
+  });
 });
 
-router.get('/fetch_online_tests/:student_id/pg', (req, res) => {
-  try {
-    let query = `select * from test where _id not in(select test_id from result where student_id = ${
-      req.params.student_id
-    }) order by _id desc`;
-    pool_2.query(query, (err, result) => {
-      if (err) {
-        console.log(err);
-        console.log(result);
-      }
+router.get('/fetch_online_tests/:student_id/p', (req, res) => {
+  let query1 = `select online_test_allowed from student where _id = ${
+    req.params.student_id
+  }`;
+  let query2 = null;
+  pool_2.query(query1, (err, result) => {
+    if (err) {
+      console.log(err);
+      console.log(result);
+    }
+    if (result.rows[0].online_test_allowed === 'true') {
+      query2 = `select * from test where _id not in(select test_id from result where student_id = ${
+        req.params.student_id
+      }) order by _id desc`;
+    } else {
+      query2 = `select * from test where set_as_demo_test = 'true' `;
+    }
+    pool_2.query(query2, (err, result) => {
+      if (err) throw err;
       const filterResult = result.rows.filter(item => {
         return isOnline(item);
       });
       res.json(filterResult);
     });
-  } catch (err) {
-    console.log(err);
-  }
+  });
 });
 
-router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
+router.get('/fetch_test_questions_by_test_id/:test_id/p', (req, res) => {
   try {
     let query = `SELECT o._id as option_id , o.test_question_id , o.english_text as option_english_text , o.hindi_text as option_hindi_text  , q.* FROM test_options o , test_questions q where o.test_question_id = q._id and q.test_id = ${
       req.params.test_id
@@ -246,7 +263,7 @@ router.get('/fetch_test_questions_by_test_id/:test_id/pg', (req, res) => {
   }
 });
 
-router.post('/submit_test/pg', (req, res) => {
+router.post('/submit_test/p', (req, res) => {
   try {
     let data = req.body;
     let query = `insert into result(test_id,student_id,correct,incorrect,skipped,totalMarks,result,time_taken)
@@ -265,7 +282,7 @@ router.post('/submit_test/pg', (req, res) => {
   }
 });
 
-router.get('/results/:test_id/pg', (req, res) => {
+router.get('/results/:test_id/p', (req, res) => {
   let query = `select row_number() over (order by cast(r.result as double precision) desc , cast(r.time_taken as double precision)) as rank  ,(select s.name from student as s where s._id = r.student_id) as name , (r.result || ' %') as RESULT ,r.time_taken,r.incorrect,r.correct,r.skipped,r.totalmarks    from result as r where test_id = '${
     req.params.test_id
   }' order by cast(r.result as double precision) desc , cast(r.time_taken as double precision)`;
@@ -276,6 +293,31 @@ router.get('/results/:test_id/pg', (req, res) => {
     } catch (error) {
       console.log(error);
     }
+  });
+});
+
+router.get('/set_demo_test/:id/p', (req, res) => {
+  let query2 = `update test set set_as_demo_test = 'true' where _id = ${
+    req.params.id
+  } `;
+  let query1 = `update test set set_as_demo_test = 'false'`;
+
+  db.tx(t => {
+    return t.batch([t.none(query1), t.none(query2)]);
+  })
+    .then(data => {
+      res.json({ code: 'success' });
+    })
+    .catch(error => {
+      console.log(error); // print error;
+    });
+});
+
+router.get('/get_all_demo_test/p', (req, res) => {
+  let query = `select * from test where set_as_demo_test = 'true'`;
+  pool_2.query(query, (req, res) => {
+    if (err) throw err;
+    res.json(result.rows);
   });
 });
 

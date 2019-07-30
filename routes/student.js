@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/student_login/pg', function(req, res) {
+router.post('/student_login/p', function(req, res) {
   try {
     let data = req.body;
     if (data.login_type === 'fb') {
@@ -89,22 +89,34 @@ router.get('/image', (req, res) => {
   );
 });
 
-router.post('/insert_token/pg', (req, res) => {
-  let data = req.body;
-  console.log(data);
-  pool_2.query(
-    `update student set push_notification_token = '${data.token}' where _id = ${
-      data.student_id
-    }`,
-    (err, result) => {
-      try {
-        res.json({ 'token_updated ': true });
-      } catch (error) {
-        console.log(error);
-        res.json({ token_updated: false });
-      }
-    }
-  );
+router.get('/show_all/p', (req, res) => {
+  let query = `select _id , row_number() over (order by _id ) as sno , name , email_id , login_type from student order by _id `;
+  pool_2.query(query, (err, result) => {
+    if (err) throw err;
+    res.json(result.rows);
+  });
+});
+
+router.get('/show_by_id/:id/p', (req, res) => {
+  let query = `select * from student where _id = ${req.params.id}`;
+  pool_2.query(query, (err, result) => {
+    if (err) throw err;
+    res.json(result.rows[0]);
+  });
+});
+
+router.post('/update_permission/p', (req, res) => {
+  const data = req.body;
+  let query = `update student set pdf_allowed = '${
+    data.pdf_allowed
+  }', online_test_allowed = '${
+    data.online_test_allowed
+  }', offline_test_allowed = ${data.offline_test_allowed} 
+  where _id = ${data._id}`;
+  pool_2.query(query, (err, result) => {
+    if (err) throw err;
+    res.json({ code: 'success' });
+  });
 });
 
 module.exports = router;
