@@ -13,7 +13,8 @@ router.post('/submit/p', (req, res) => {
 });
 
 router.get('/show_all/p', (req, res) => {
-  let query = 'select * from enquiry';
+  let query =
+    'select distinct name , mobile_no , address  from (select e.* from enquiry as e order by e._id ) as derivedTable';
   pool_2.query(query, (err, result) => {
     if (err) throw err;
     res.json(result.rows);
