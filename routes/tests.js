@@ -7,7 +7,7 @@ var pgsql = require('pg-pool');
 var moment = require('moment-timezone');
 
 var pool_2 = new pgsql(require('../database').pgsql);
-var pgp = require('pg-promise')(/*options*/);
+var pgp = require('pg-promise')({ noWarnings: true });
 var db = pgp(require('../database').pgsql);
 
 router.post('/create/p', function(req, res) {
@@ -296,10 +296,11 @@ router.get('/results/:test_id/p', (req, res) => {
   });
 });
 
-router.get('/set_demo_test/:id/p', (req, res) => {
-  let query2 = `update test set set_as_demo_test = 'true' where _id = ${
-    req.params.id
-  } `;
+router.post('/set_demo_test/p', (req, res) => {
+  let query2 = `update test set set_as_demo_test = 'true' where _id in(${req.body
+    .toString()
+    .replace('[')
+    .replace(']')}) `;
   let query1 = `update test set set_as_demo_test = 'false'`;
 
   db.tx(t => {

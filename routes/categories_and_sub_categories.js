@@ -4,6 +4,8 @@ var mysql = require('mysql');
 var pgsql = require('pg-pool');
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/sub_category/' });
+var pgp = require('pg-promise')({ noWarnings: true });
+var db = pgp(require('../database').pgsql);
 var pool_1 = mysql.createPool(require('../database').mysql);
 var pool_2 = new pgsql(require('../database').pgsql);
 
@@ -116,6 +118,36 @@ router.get('/sub_categories/:category_id/p', (req, res) => {
   );
 });
 
+router.post('');
+
+router.get(
+  '/fetch_sub_category_for_pdf/:student_id/:category_id/p',
+  (req, res) => {
+    let query1 = `select pdf_allowed	 from student where _id = ${
+      req.params.student_id
+    }`;
+    let query2 = null;
+    pool_2.query(query1, (err, result) => {
+      if (err) throw err;
+      if (result.rows[0].pdf_allowed === 'true') {
+        query2 = `select * from sub_category where category_id = ${
+          req.params.category_id
+        } order by english_name `;
+      } else {
+        query2 = `select * from sub_category where demo = 'true' and category_id = '${
+          req.params.category_id
+        }'`;
+      }
+      pool_2.query(query2, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        res.json(result.rows);
+      });
+    });
+  }
+);
+
 router.get('/fetch_sub_category_by_id/:sub_category_id/p', (req, res) => {
   pool_2.query(
     `select * from sub_category where _id = ${req.params.sub_category_id}`,
@@ -164,5 +196,23 @@ router.post(
     });
   }
 );
+
+router.post('/set_demo_pdf_category/p', (req, res) => {
+  let query2 = `update sub_category set demo = 'true' where _id in(${req.body
+    .toString()
+    .replace('[')
+    .replace(']')}) `;
+  let query1 = `update sub_category set demo = 'false' `;
+
+  db.tx(t => {
+    return t.batch([t.none(query1), t.none(query2)]);
+  })
+    .then(data => {
+      res.json({ code: 'success' });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
 
 module.exports = router;
