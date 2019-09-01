@@ -15,9 +15,7 @@ router.post('/student_login/p', function(req, res) {
     let data = req.body;
     if (data.login_type === 'fb') {
       let query = `insert into student(fb_id,name,fb_pic,login_type)
-      values('${data.facebook_id}','${data.name}','${
-        data.fb_pic_uri
-      }','fb_login') 
+      values('${data.facebook_id}','${data.name}','${data.fb_pic_uri}','fb_login') 
       on conflict (fb_id) do nothing  returning * `;
       pool_2.query(query, (err, result) => {
         if (err) {
@@ -39,9 +37,7 @@ router.post('/student_login/p', function(req, res) {
         }
       });
     } else if (data.login_type === 'custom_login') {
-      let query = `select * from student where email_id = '${
-        data.email
-      }' and password = '${data.password}' `;
+      let query = `select * from student where email_id = '${data.email}' and password = '${data.password}' `;
       pool_2.query(query, (err, result) => {
         if (err) {
           console.log(err);
@@ -54,9 +50,7 @@ router.post('/student_login/p', function(req, res) {
       });
     } else if (data.login_type === 'google') {
       let query = `insert into student(google_id,name,google_pic,login_type,email_id)
-    values('${data.google_id}','${data.name}','${
-        data.google_pic_uri
-      }','google_login','${data.email}') 
+    values('${data.google_id}','${data.name}','${data.google_pic_uri}','google_login','${data.email}') 
     on conflict (google_id) do nothing  returning * `;
       pool_2.query(query, (err, result) => {
         if (err) {
@@ -107,11 +101,7 @@ router.get('/show_by_id/:id/p', (req, res) => {
 
 router.post('/update_permission/p', (req, res) => {
   const data = req.body;
-  let query = `update student set pdf_allowed = '${
-    data.pdf_allowed
-  }', online_test_allowed = '${
-    data.online_test_allowed
-  }', offline_test_allowed = ${data.offline_test_allowed} 
+  let query = `update student set pdf_allowed = '${data.pdf_allowed}', online_test_allowed = '${data.online_test_allowed}', offline_test_allowed = ${data.offline_test_allowed} 
   where _id = ${data._id}`;
   pool_2.query(query, (err, result) => {
     if (err) throw err;
