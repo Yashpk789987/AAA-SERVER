@@ -25,8 +25,8 @@ function findAmountByPackId(pack_id) {
 
 router.post('/payment_instamojo/p', (req, res) => {
   var headers = {
-    'X-Api-Key': '~',
-    'X-Auth-Token': '~'
+    'X-Api-Key': '18d2c2a55141fca1b31bcfb9ac9e1674',
+    'X-Auth-Token': '021f6c6ac9a65387e6ca1ea5b7f2c637'
   };
   // var headers = {
   //   'X-Api-Key': 'test_d23de9e296e298e0bfb8062ad46',

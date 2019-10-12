@@ -16,7 +16,7 @@ router.post('/student_login/p', function(req, res) {
     if (data.login_type === 'fb') {
       let query = `insert into student(fb_id,name,fb_pic,login_type)
       values('${data.facebook_id}','${data.name}','${data.fb_pic_uri}','fb_login') 
-      on conflict (fb_id) do nothing  returning * `;
+      on conflict (fb_id) do update set fb_pic = '${data.fb_pic_uri}'  returning * `;
       pool_2.query(query, (err, result) => {
         if (err) {
           console.log(err);
