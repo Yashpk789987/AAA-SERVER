@@ -76,6 +76,7 @@ router.post('/payment_instamojo/p', (req, res) => {
 });
 
 router.post('/submit_payment_details/p', (req, res) => {
+  console.log('I called ... ');
   try {
     let currentDateTime = moment
       .tz(moment(), 'Asia/Kolkata')
