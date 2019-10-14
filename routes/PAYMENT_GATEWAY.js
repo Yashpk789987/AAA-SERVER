@@ -24,14 +24,14 @@ function findAmountByPackId(pack_id) {
 }
 
 router.post('/payment_instamojo/p', (req, res) => {
-  var headers = {
-    'X-Api-Key': '18d2c2a55141fca1b31bcfb9ac9e1674',
-    'X-Auth-Token': '021f6c6ac9a65387e6ca1ea5b7f2c637'
-  };
   // var headers = {
-  //   'X-Api-Key': 'test_d23de9e296e298e0bfb8062ad46',
-  //   'X-Auth-Token': 'test_94e327959ece8b0afa8d84af11c'
+  //   'X-Api-Key': '18d2c2a55141fca1b31bcfb9ac9e1674',
+  //   'X-Auth-Token': '021f6c6ac9a65387e6ca1ea5b7f2c637'
   // };
+  var headers = {
+    'X-Api-Key': 'test_d23de9e296e298e0bfb8062ad46',
+    'X-Auth-Token': 'test_94e327959ece8b0afa8d84af11c'
+  };
 
   const data = req.body;
 
@@ -48,20 +48,8 @@ router.post('/payment_instamojo/p', (req, res) => {
     allow_repeated_payments: true
   };
 
-  request.post(
-    'https://www.instamojo.com/api/1.1/payment-requests/',
-    { form: payload, headers: headers },
-    function(error, response, body) {
-      console.log(response.statusCode);
-      console.log(error);
-      if (!error && response.statusCode == 201) {
-        console.log(body);
-        res.json(JSON.parse(body));
-      }
-    }
-  );
   // request.post(
-  //   'https://test.instamojo.com/api/1.1/payment-requests/',
+  //   'https://www.instamojo.com/api/1.1/payment-requests/',
   //   { form: payload, headers: headers },
   //   function(error, response, body) {
   //     console.log(response.statusCode);
@@ -72,6 +60,18 @@ router.post('/payment_instamojo/p', (req, res) => {
   //     }
   //   }
   // );
+  request.post(
+    'https://test.instamojo.com/api/1.1/payment-requests/',
+    { form: payload, headers: headers },
+    function(error, response, body) {
+      console.log(response.statusCode);
+      console.log(error);
+      if (!error && response.statusCode == 201) {
+        console.log(body);
+        res.json(JSON.parse(body));
+      }
+    }
+  );
 });
 
 router.post('/submit_payment_details/p', (req, res) => {
