@@ -6,22 +6,21 @@ var pgsql = require('pg-pool');
 var pool_2 = new pgsql(require('../database').pgsql);
 
 function findAmountByPackId(pack_id) {
-  return '9';
-  // let amount = 0;
-  // // return 10;
-  // switch (pack_id) {
-  //   case 1:
-  //     amount = 100;
-  //     break;
-  //   case 2:
-  //     amount = 300;
-  //     break;
-  //   case 3:
-  //     amount = 500;
-  //     break;
-  // }
-  // let total_amount = amount + amount * 0.02 + 3;
-  // return total_amount.toString();
+  let amount = 0;
+  // return 10;
+  switch (pack_id) {
+    case 1:
+      amount = 100;
+      break;
+    case 2:
+      amount = 300;
+      break;
+    case 3:
+      amount = 500;
+      break;
+  }
+  let total_amount = amount + amount * 0.02 + 3;
+  return total_amount.toString();
 }
 
 router.post('/payment_instamojo/p', (req, res) => {
@@ -89,7 +88,7 @@ router.post('/submit_payment_details/p', (req, res) => {
     } catch (err) {
       console.group(err);
     }
-    console.log(data);
+   
     let payment_data = data.payment_request.payments[0];
     let query1 = `insert into payments(student_id,payment_date,payment_time,payment_type,amount,instamojo_reference_id,remark) values(
     '${req.body.student_id}','${currentDateTime[0]}','${currentDateTime[1]}','${
@@ -99,8 +98,6 @@ router.post('/submit_payment_details/p', (req, res) => {
     )}'
   )`;
     let query2 = `update student set online_test_allowed = 'true', offline_test_allowed = 'true', pdf_allowed = 'true', payment_status = 'true' where _id = ${req.body.student_id}`;
-    console.log(query1);
-    console.log(query2);
     pool_2.query(query1, (err, result) => {
       if (err) throw err;
       pool_2.query(query2, (err, result) => {
