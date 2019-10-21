@@ -74,7 +74,6 @@ router.post('/payment_instamojo/p', (req, res) => {
 });
 
 router.post('/submit_payment_details/p', (req, res) => {
-  console.log('I called ... ');
   try {
     let currentDateTime = moment
       .tz(moment(), 'Asia/Kolkata')
@@ -95,6 +94,35 @@ router.post('/submit_payment_details/p', (req, res) => {
     }','${payment_data.amount}','${payment_data.payment_id}','${JSON.stringify(
       payment_data
     )}'
+  )`;
+    let query2 = `update student set online_test_allowed = 'true', offline_test_allowed = 'true', pdf_allowed = 'true', payment_status = 'true' where _id = ${req.body.student_id}`;
+    pool_2.query(query1, (err, result) => {
+      if (err) throw err;
+      pool_2.query(query2, (err, result) => {
+        if (err) throw err;
+        res.json({ code: 'success' });
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/create_cash_payment/p', (req, res) => {
+  try {
+    let currentDateTime = moment
+      .tz(req.body.payment_date, 'Asia/Kolkata')
+      .format('DD/MM/YYYY');
+
+    let data = null;
+    try {
+      data = req.body;
+    } catch (err) {
+      console.log(err);
+    }
+
+    let query1 = `insert into payments(student_id,payment_date,payment_time,payment_type,amount,instamojo_reference_id,remark) values(
+    '${req.body.student_id}','${currentDateTime}','10:00','${req.body.pack_id}','${payment_data.amount}','','CASH'
   )`;
     let query2 = `update student set online_test_allowed = 'true', offline_test_allowed = 'true', pdf_allowed = 'true', payment_status = 'true' where _id = ${req.body.student_id}`;
     pool_2.query(query1, (err, result) => {
