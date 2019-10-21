@@ -81,7 +81,6 @@ router.post('/submit_payment_details/p', (req, res) => {
       .split(' ');
     let data = null;
     try {
-      console.log(req.body);
       data = req.body;
     } catch (err) {
       console.group(err);
@@ -120,6 +119,8 @@ router.post('/create_cash_payment/p', (req, res) => {
     } catch (err) {
       console.log(err);
     }
+
+    console.log(req.body);
 
     let query1 = `insert into payments(student_id,payment_date,payment_time,payment_type,amount,instamojo_reference_id,remark) values(
     '${req.body.student_id}','${currentDateTime}','10:00','${req.body.pack_id}','${req.body.amount}','','CASH'
