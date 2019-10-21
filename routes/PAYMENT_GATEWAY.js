@@ -7,7 +7,6 @@ var pool_2 = new pgsql(require('../database').pgsql);
 
 function findAmountByPackId(pack_id) {
   let amount = 0;
-  // return 10;
   switch (pack_id) {
     case 1:
       amount = 100;
@@ -88,7 +87,7 @@ router.post('/submit_payment_details/p', (req, res) => {
     } catch (err) {
       console.group(err);
     }
-   
+
     let payment_data = data.payment_request.payments[0];
     let query1 = `insert into payments(student_id,payment_date,payment_time,payment_type,amount,instamojo_reference_id,remark) values(
     '${req.body.student_id}','${currentDateTime[0]}','${currentDateTime[1]}','${

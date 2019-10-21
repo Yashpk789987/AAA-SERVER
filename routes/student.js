@@ -4,6 +4,9 @@ var pgsql = require('pg-pool');
 var mysql = require('mysql');
 var pool_1 = mysql.createPool(require('../database').mysql);
 var pool_2 = new pgsql(require('../database').pgsql);
+var moment = require('moment-timezone');
+var pgp = require('pg-promise')({ noWarnings: true });
+var db = pgp(require('../database').pgsql);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -106,6 +109,58 @@ router.post('/update_permission/p', (req, res) => {
   pool_2.query(query, (err, result) => {
     if (err) throw err;
     res.json({ code: 'success' });
+  });
+});
+
+function filter_payment_status(payment_object) {
+  let currentDate = moment(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+  );
+
+  let payment_date = moment(payment_object.payment_date, 'DD/MM/YYYY');
+  let difference = parseInt(
+    moment.duration(currentDate.diff(payment_date)).asDays()
+  );
+  let allowed_duration = 0;
+  switch (parseInt(payment_object.payment_type)) {
+    case 1:
+      allowed_duration = 30 * 1;
+      break;
+    case 2:
+      allowed_duration = 30 * 4;
+      break;
+    case 3:
+      allowed_duration = 30 * 6;
+      break;
+  }
+  return !(difference > allowed_duration);
+}
+
+router.get('/update_payment_status/p', function(req, res) {
+  let query1 = `select student_id,_id,payment_date,amount,payment_type from payments`;
+  pool_2.query(query1, function(err, result) {
+    if (err) throw err;
+    let payments = result.rows;
+    let r = null;
+    let str = '';
+    for (let i = 0; i < payments.length; i++) {
+      r = filter_payment_status(payments[i]);
+      if (r) {
+        str += `${parseInt(payments[i].student_id)},`;
+      }
+    }
+    str = str.substring(0, str.length - 1);
+    let query2 = `update student set pdf_allowed = 'true' , online_test_allowed = 'true' , offline_test_allowed = 'true' , payment_status = 'true' where _id in (${str})`;
+    let query3 = `update student set pdf_allowed = 'true' , online_test_allowed = 'false' , offline_test_allowed = 'false' , payment_status = 'false' where _id not in (${str})`;
+    db.tx(t => {
+      return t.batch([t.none(query2), t.none(query3)]);
+    })
+      .then(data => {
+        res.json({ code: 'success' });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   });
 });
 
