@@ -122,7 +122,7 @@ router.post('/create_cash_payment/p', (req, res) => {
     }
 
     let query1 = `insert into payments(student_id,payment_date,payment_time,payment_type,amount,instamojo_reference_id,remark) values(
-    '${req.body.student_id}','${currentDateTime}','10:00','${req.body.pack_id}','${payment_data.amount}','','CASH'
+    '${req.body.student_id}','${currentDateTime}','10:00','${req.body.pack_id}','${req.body.amount}','','CASH'
   )`;
     let query2 = `update student set online_test_allowed = 'true', offline_test_allowed = 'true', pdf_allowed = 'true', payment_status = 'true' where _id = ${req.body.student_id}`;
     pool_2.query(query1, (err, result) => {
