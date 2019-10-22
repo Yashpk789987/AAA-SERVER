@@ -14,6 +14,8 @@ var studentRouter = require('./routes/student');
 var authorizeRouter = require('./routes/authorize');
 var Payment_Gateway_Router = require('./routes/PAYMENT_GATEWAY');
 var enquiryRouter = require('./routes/enquiry');
+var adsRouter = require('./routes/ads');
+
 var app = express();
 var cookieSession = require('cookie-session');
 app.use(
@@ -43,6 +45,7 @@ app.use('/students', studentRouter);
 app.use('/authorize', authorizeRouter);
 app.use('/payment', Payment_Gateway_Router);
 app.use('/enquiry', enquiryRouter);
+app.use('/ads', adsRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
