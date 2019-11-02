@@ -242,7 +242,7 @@ router.get('/fetch_offline_tests/:student_id/:offset/p', (req, res) => {
     if (err) throw err;
 
     if (result.rows[0].offline_test_allowed === 'true') {
-      query2 = `select * from test order by _id desc  limit 5 offset ${req.params.offset} `;
+      query2 = `select * from test order by _id desc  limit 6 offset ${req.params.offset} `;
     } else {
       query2 = `select * from test where set_as_demo_test = 'true' `;
     }
