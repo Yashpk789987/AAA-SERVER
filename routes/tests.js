@@ -31,6 +31,34 @@ router.post('/create/p', function(req, res) {
   }
 });
 
+router.post('/update/p', function(req, res) {
+  try {
+    let data = req.body;
+    let query = `update test set english_title = '${data.english_title}',
+    hindi_title = '${data.hindi_title}',
+    test_commence_date = '${data.test_commence_date}',
+    test_commence_time = '${data.test_commence_time}',
+    test_allowed_time_in_seconds = '${data.test_duration_in_seconds}',
+    end_time = '${data.end_time}',
+    set_password = '${data.set_password}',
+    shuffle_required = '${data.shuffle_required}'
+    where _id = '${data._id}' returning * `;
+
+    pool_2.query(query, (err, result) => {
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+      res.json({
+        message: 'Test Updated.. ',
+        test: result.rows[0]
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post('/add_testQuestion_without_image/p', upload.any(), (req, res) => {
   try {
     let data = JSON.parse(req.body.SendData);
@@ -80,7 +108,7 @@ router.post(
         res.json({ code: 'success' });
       })
       .catch(error => {
-        console.log(error); // print error;
+        console.log(error);
       });
   }
 );
@@ -207,14 +235,14 @@ isOffline = obj => {
   }
 };
 
-router.get('/fetch_offline_tests/:student_id/p', (req, res) => {
+router.get('/fetch_offline_tests/:student_id/:offset/p', (req, res) => {
   let query1 = `select offline_test_allowed from student where _id = ${req.params.student_id}`;
   let query2 = null;
   pool_2.query(query1, (err, result) => {
     if (err) throw err;
 
     if (result.rows[0].offline_test_allowed === 'true') {
-      query2 = `select * from test order by _id desc  limit 50 `;
+      query2 = `select * from test order by _id desc  limit 5 offset ${req.params.offset} `;
     } else {
       query2 = `select * from test where set_as_demo_test = 'true' `;
     }
