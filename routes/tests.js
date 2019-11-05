@@ -235,14 +235,14 @@ isOffline = obj => {
   }
 };
 
-router.get('/fetch_offline_tests/:student_id/:offset/p', (req, res) => {
+router.get('/fetch_offline_tests/:student_id/p', (req, res) => {
   let query1 = `select offline_test_allowed from student where _id = ${req.params.student_id}`;
   let query2 = null;
   pool_2.query(query1, (err, result) => {
     if (err) throw err;
 
     if (result.rows[0].offline_test_allowed === 'true') {
-      query2 = `select * from test order by _id desc  limit 6 offset ${req.params.offset} `;
+      query2 = `select * from test order by _id desc  `;
     } else {
       query2 = `select * from test where set_as_demo_test = 'true' `;
     }
@@ -257,6 +257,32 @@ router.get('/fetch_offline_tests/:student_id/:offset/p', (req, res) => {
     });
   });
 });
+
+router.get(
+  '/fetch_offline_tests_withoffset/:student_id/:offset/p',
+  (req, res) => {
+    let query1 = `select offline_test_allowed from student where _id = ${req.params.student_id}`;
+    let query2 = null;
+    pool_2.query(query1, (err, result) => {
+      if (err) throw err;
+
+      if (result.rows[0].offline_test_allowed === 'true') {
+        query2 = `select * from test order by _id desc  limit 6 offset ${req.params.offset} `;
+      } else {
+        query2 = `select * from test where set_as_demo_test = 'true' `;
+      }
+      pool_2.query(query2, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        const filterResult = result.rows.filter(item => {
+          return isOffline(item);
+        });
+        res.json(filterResult);
+      });
+    });
+  }
+);
 
 router.get('/fetch_online_tests/:student_id/p', (req, res) => {
   let query1 = `select online_test_allowed from student where _id = ${req.params.student_id}`;
