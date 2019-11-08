@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/questions/' });
-var mysql = require('mysql');
+
 var pgsql = require('pg-pool');
 var moment = require('moment-timezone');
 
@@ -93,7 +93,6 @@ router.post(
   (req, res) => {
     let data = JSON.parse(req.body.SendData);
     let options = data.options;
-    console.log(options);
     db.tx(t => {
       let question_update_query = `update test_questions set english_text = '${data.english_text}', hindi_text = '${data.hindi_text}', correct_option_index = '${data.correct_option_index}' where _id = ${data.question_id}`;
       let batch_array = [];
@@ -364,7 +363,7 @@ router.post('/set_demo_test/p', (req, res) => {
       res.json({ code: 'success' });
     })
     .catch(error => {
-      console.log(error); // print error;
+      console.log(error);
     });
 });
 

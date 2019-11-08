@@ -4,10 +4,10 @@ var mime = require('mime');
 var router = express.Router();
 var multer = require('multer');
 
-var mysql = require('mysql');
+
 var pgsql = require('pg-pool');
 
-var pool_1 = mysql.createPool(require('../database').mysql);
+
 var pool_2 = new pgsql(require('../database').pgsql);
 
 var storage = multer.diskStorage({

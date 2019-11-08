@@ -15,6 +15,7 @@ var authorizeRouter = require('./routes/authorize');
 var Payment_Gateway_Router = require('./routes/PAYMENT_GATEWAY');
 var enquiryRouter = require('./routes/enquiry');
 var adsRouter = require('./routes/ads');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 var cookieSession = require('cookie-session');
@@ -46,6 +47,7 @@ app.use('/authorize', authorizeRouter);
 app.use('/payment', Payment_Gateway_Router);
 app.use('/enquiry', enquiryRouter);
 app.use('/ads', adsRouter);
+app.use('/admin', adminRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

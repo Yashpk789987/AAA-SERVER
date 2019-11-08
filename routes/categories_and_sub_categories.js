@@ -11,9 +11,7 @@ var pool_2 = new pgsql(require('../database').pgsql);
 
 router.post('/add_category', (req, res) => {
   pool_1.query(
-    `insert into category(english_name, hindi_name) values('${
-      req.body.english_name
-    }', '${req.body.hindi_name}')`,
+    `insert into category(english_name, hindi_name) values('${req.body.english_name}', '${req.body.hindi_name}')`,
     (err, result) => {
       if (err) throw err;
       res.json({ message: 'Successfully Added ....' });
@@ -23,9 +21,7 @@ router.post('/add_category', (req, res) => {
 
 router.post('/add_category/p', (req, res) => {
   pool_2.query(
-    `insert into category(english_name, hindi_name) values('${
-      req.body.english_name
-    }', '${req.body.hindi_name}')`,
+    `insert into category(english_name, hindi_name) values('${req.body.english_name}', '${req.body.hindi_name}')`,
     (err, result) => {
       if (err) throw err;
       res.json({ message: 'Successfully Added ....' });
@@ -38,9 +34,7 @@ router.post(
   upload.single('sub_category_image'),
   (req, res) => {
     let data = JSON.parse(req.body.SendData);
-    let query = `insert into sub_category(english_name, hindi_name, category_id , logo) values('${
-      data.english_name
-    }', '${data.hindi_name}'
+    let query = `insert into sub_category(english_name, hindi_name, category_id , logo) values('${data.english_name}', '${data.hindi_name}'
   , ${data.category_id} , '${req.file.filename}')`;
     pool_1.query(query, (err, result) => {
       if (err) throw err;
@@ -54,9 +48,7 @@ router.post(
   upload.single('sub_category_image'),
   (req, res) => {
     let data = JSON.parse(req.body.SendData);
-    let query = `insert into sub_category(english_name, hindi_name, category_id , logo) values('${
-      data.english_name
-    }', '${data.hindi_name}'
+    let query = `insert into sub_category(english_name, hindi_name, category_id , logo) values('${data.english_name}', '${data.hindi_name}'
   , ${data.category_id} , '${req.file.filename}')`;
     pool_2.query(query, (err, result) => {
       if (err) throw err;
@@ -108,9 +100,7 @@ router.get('/sub_categories/:category_id', (req, res) => {
 
 router.get('/sub_categories/:category_id/p', (req, res) => {
   pool_2.query(
-    `select * from sub_category where category_id = ${
-      req.params.category_id
-    } order by english_name `,
+    `select * from sub_category where category_id = ${req.params.category_id} order by english_name `,
     (err, result) => {
       if (err) throw err;
       res.json(result.rows);
@@ -118,25 +108,17 @@ router.get('/sub_categories/:category_id/p', (req, res) => {
   );
 });
 
-router.post('');
-
 router.get(
   '/fetch_sub_category_for_pdf/:student_id/:category_id/p',
   (req, res) => {
-    let query1 = `select pdf_allowed	 from student where _id = ${
-      req.params.student_id
-    }`;
+    let query1 = `select pdf_allowed	 from student where _id = ${req.params.student_id}`;
     let query2 = null;
     pool_2.query(query1, (err, result) => {
       if (err) throw err;
       if (result.rows[0].pdf_allowed === 'true') {
-        query2 = `select * from sub_category where category_id = ${
-          req.params.category_id
-        } order by english_name `;
+        query2 = `select * from sub_category where category_id = ${req.params.category_id} order by english_name `;
       } else {
-        query2 = `select * from sub_category where demo = 'true' and category_id = '${
-          req.params.category_id
-        }'`;
+        query2 = `select * from sub_category where demo = 'true' and category_id = '${req.params.category_id}'`;
       }
       pool_2.query(query2, (err, result) => {
         if (err) {

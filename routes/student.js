@@ -1,17 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var pgsql = require('pg-pool');
-var mysql = require('mysql');
-var pool_1 = mysql.createPool(require('../database').mysql);
+
 var pool_2 = new pgsql(require('../database').pgsql);
 var moment = require('moment-timezone');
 var pgp = require('pg-promise')({ noWarnings: true });
 var db = pgp(require('../database').pgsql);
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 router.post('/student_login/p', function(req, res) {
   try {
@@ -78,12 +74,6 @@ router.post('/student_login/p', function(req, res) {
   } catch (error) {
     console.log(error);
   }
-});
-
-router.get('/image', (req, res) => {
-  res.send(
-    `<image src = 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=179097639724111&height=150&width=200&ext=1554664453&hash=AeRBdLb4_EEHwP6v' >`
-  );
 });
 
 router.get('/show_all/p', (req, res) => {
