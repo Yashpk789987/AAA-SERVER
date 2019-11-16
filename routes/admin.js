@@ -8,7 +8,7 @@ let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'yashpk789987@gmail.com',
-    pass: 'yashmaihar'
+    pass: 'Reactnative@2018'
   }
 });
 
@@ -34,6 +34,7 @@ let sendMail = (mail_id, generated_url) => {
   };
   transporter.sendMail(mailOptions, function(error, response) {
     if (error) {
+      console.log("ERROR :" + error)
     } else {
     }
   });
