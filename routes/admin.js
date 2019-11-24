@@ -9,8 +9,8 @@ let transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: 'yashpk789987@gmail.com',
-    pass: 'Reactnative@2018'
+    user: 'yashpk2128@gmail.com',
+    pass: 'Angularjs@2019'
   }
 });
 
@@ -27,7 +27,7 @@ let generateToken = () => {
 
 let sendMail = (mail_id, generated_url) => {
   var mailOptions = {
-    from: 'yashpk789987@gmail.com',
+    from: 'yashpk2128@gmail.com',
     to: 'saurabhrathorepk@gmail.com',
     subject: 'Password Reset',
     text:
