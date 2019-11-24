@@ -25,14 +25,15 @@ let generateToken = () => {
 
 let sendMail = (mail_id, generated_url) => {
   var mailOptions = {
-    from: 'Yashpk2128@gmail.com',
-    to: mail_id,
+    from: 'yashpk789987@gmail.com',
+    to: 'saurabhrathorepk@gmail.com',
     subject: 'Password Reset',
     text:
       'Follow Given Link To Reset Password\nPlease Note That this link will be expired in 10 minutes',
     html: `<html><a href = '${generated_url}'>Follow This Link To Reset Password</a></html>`
   };
   transporter.sendMail(mailOptions, function(error, response) {
+    console.log(response);
     if (error) {
       console.log("ERROR :" + error)
     } else {
