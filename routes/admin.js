@@ -32,7 +32,7 @@ let sendMail = (mail_id, generated_url) => {
       'Follow Given Link To Reset Password\nPlease Note That this link will be expired in 10 minutes',
     html: `<html><a href = '${generated_url}'>Follow This Link To Reset Password</a></html>`
   };
-  console.log("MAILOPTIONS",mailoptions);
+  console.log("MAILOPTIONS",mailOptions);
   transporter.sendMail(mailOptions, function(error, response) {
     console.log(response);
     if (error) {
