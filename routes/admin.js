@@ -28,7 +28,7 @@ let generateToken = () => {
 let sendMail = (mail_id, generated_url) => {
   var mailOptions = {
     from: 'yashpk2128@gmail.com',
-    to: 'saurabhrathorepk@gmail.com',
+    to: 'shshagrawal05@gmail.com',
     subject: 'Password Reset',
     text:
       'Follow Given Link To Reset Password\nPlease Note That this link will be expired in 10 minutes',
