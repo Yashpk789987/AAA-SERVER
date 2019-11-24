@@ -5,7 +5,9 @@ var pool_2 = new pgsql(require('../database').pgsql);
 var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: 'yashpk789987@gmail.com',
     pass: 'Reactnative@2018'
