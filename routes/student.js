@@ -50,7 +50,7 @@ router.post('/student_login/p', function(req, res) {
     } else if (data.login_type === 'google') {
       let query = `insert into student(google_id,name,google_pic,login_type,email_id)
     values('${data.google_id}','${data.name}','${data.google_pic_uri}','google_login','${data.email}') 
-    on conflict (google_id) do nothing  returning * `;
+    on conflict (google_id) do update set fb_pic = '${data.fb_pic_uri}'    returning * `;
       pool_2.query(query, (err, result) => {
         if (err) {
           console.log(err);
