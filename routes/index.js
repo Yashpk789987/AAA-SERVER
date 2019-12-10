@@ -22,7 +22,8 @@ router.get('/error', (req, res) => {
 // });
 
 router.get('/download', (req, res) => {
-  res.render('Download.ejs');
+  res.redirect('https://play.google.com/store/apps/details?id=com.yashpk2128');
+  //res.render('Download.ejs');
 });
 
 module.exports = router;
