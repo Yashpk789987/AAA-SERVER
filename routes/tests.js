@@ -146,6 +146,7 @@ router.get('/fetch_all_test/p', (req, res) => {
         console.log(err);
         throw err;
       }
+      console.log(result.rows.length);
       res.json(result.rows);
     });
   } catch (error) {}
