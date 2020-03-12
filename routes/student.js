@@ -9,6 +9,14 @@ var db = pgp(require('../database').pgsql);
 
 /* GET users listing. */
 
+router.get('/query', function(req, res) {
+  let query = `ALTER TABLE student ADD  UNIQUE (fb_id);`;
+  pool_2.query(query, function(err, result) {
+    if (err) throw err;
+    res.json({ result });
+  });
+});
+
 router.post('/student_login/p', function(req, res) {
   try {
     let data = req.body;

@@ -7,11 +7,11 @@ module.exports = {
     database: 'aaa_academy'
   },
   pgsql: {
-    host: 'ec2-52-45-14-227.compute-1.amazonaws.com',
-    database: 'd6tb4kmvlj38ko',
-    user: 'bzajlkhnnyaxoh',
+    host: 'ec2-54-157-78-113.compute-1.amazonaws.com',
+    database: 'daeupgee5aigjo',
+    user: 'gjrnwafxvimgbx',
     password:
-      '5dbb7b83ea4222df2f7fe39e56ebbf083fb72727d45f7ba4c98104514ca22243',
+      'e55c3976d9afc7c4dba3e1ffa742a04017a9f49c9b46928c5c1bf3eb58a3aecf',
     port: 5432,
     ssl: true,
     max: 20,
